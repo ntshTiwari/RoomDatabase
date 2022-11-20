@@ -15,10 +15,22 @@
         tools:layout_editor_absoluteX="151dp"
         tools:layout_editor_absoluteY="327dp" />
 
+    <TextView
+        android:id="@+id/noEmployee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        android:layout_weight="1"
+        android:text="No Employee found"
+        android:visibility="visible"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listEmployees"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_weight="1"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

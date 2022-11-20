@@ -2,6 +2,7 @@ package com.example.roomdatabase
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -34,20 +35,42 @@ class MainActivity : AppCompatActivity() {
         var allEmployees = employeeDao.fetchAllEmployees()
         renderAllEmployees(allEmployees)
 
-
     }
 
     private fun renderAllEmployees(allEmployees: Flow<List<EmployeeEntity>>) {
         lifecycleScope.launch{
             allEmployees.collect(){
-                binding!!.listEmployees.adapter = MainAdapter(it)
+                if(it.isNotEmpty()){
+                    binding!!.noEmployee.visibility = View.GONE
+                    binding!!.listEmployees.visibility = View.VISIBLE
+
+                    binding!!.listEmployees.adapter = MainAdapter(
+                        it,
+                        /// we pass the function that will delete the employeeEntity
+                        {
+                            employeeEntity ->
+                                deleteEmployee(employeeEntity)
+                        }
+                    )
+                } else {
+                    binding!!.listEmployees.visibility = View.GONE
+                    binding!!.noEmployee.visibility = View.VISIBLE
+                }
             }
+        }
+    }
+
+    private fun deleteEmployee(employeeEntity: EmployeeEntity) {
+        lifecycleScope.launch {
+            /// we can use the already created dao or get the same from the singleton
+            (application as EmployeeApp).db.employeeDao().delete(employeeEntity);
+            Toast.makeText(applicationContext, "Deleted ${employeeEntity.id}", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun addRecord(employeeDao: EmployeeDao){
         lifecycleScope.launch{
-            employeeDao.insert(EmployeeEntity(name = "Nitesh new", email = "niteshnew@mail.com"))
+            employeeDao.insert(EmployeeEntity(name = "Nitesh new neww neww", email = "niteshnew@mail.com"))
 //            runOnUiThread {
 //                Toast.makeText(this@MainActivity, "Record saved", Toast.LENGTH_LONG).show()
 //            }
