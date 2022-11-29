@@ -50,7 +50,9 @@ class MainActivity : AppCompatActivity() {
                         {
                             employeeEntity ->
                                 deleteEmployee(employeeEntity)
-                        }
+                        },
+                        this@MainActivity,
+                        DEDICATED_VIEW,
                     )
                 } else {
                     binding!!.listEmployees.visibility = View.GONE
@@ -82,5 +84,10 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         binding = null
+    }
+
+    /// companion objects can be accessed like static methods from outside classes as well
+    companion object {
+        var DEDICATED_VIEW = "dedicated_view"
     }
 }

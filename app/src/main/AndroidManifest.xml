@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.roomdatabase">
 
-<!--    we added the android:name=".EmployeeApp" as we want the app to instantiate this class before any other class when this app's process start-->
     <application
-        android:allowBackup="true"
         android:name=".EmployeeApp"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -15,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RoomDatabase"
         tools:targetApi="31">
+        <activity
+            android:name=".DedicatedView"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

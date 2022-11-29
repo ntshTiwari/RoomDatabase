@@ -3,6 +3,7 @@ package com.example.roomdatabase
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "employee-table") /// we define the table name here that will be used to store the entity
 data class EmployeeEntity(
@@ -12,4 +13,4 @@ data class EmployeeEntity(
     var name: String = "", /// if we don't define a column name then it will be same as the variable name
     @ColumnInfo(name = "email-id") /// now the email field in table will have column name `email-id`
     var email: String = "",
-)
+) : Serializable

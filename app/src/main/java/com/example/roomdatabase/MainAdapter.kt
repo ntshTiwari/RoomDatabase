@@ -1,7 +1,10 @@
 package com.example.roomdatabase
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomdatabase.databinding.RecyclerviewItemBinding
 
@@ -9,7 +12,9 @@ import com.example.roomdatabase.databinding.RecyclerviewItemBinding
 /// it is a lamda function here
 class MainAdapter(
     private val employeeEntityList: List<EmployeeEntity>,
-    private val deleteListener:(employeeEntity: EmployeeEntity) -> Unit
+    private val deleteListener:(employeeEntity: EmployeeEntity) -> Unit,
+    private val context: Context,
+    private val intentPutExtraString: String
     ):
     RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
@@ -22,6 +27,15 @@ class MainAdapter(
 
                 itemBinding.delete.setOnClickListener {
                     deleteListener.invoke(employeeEntity)
+                }
+                println("new item")
+                println(itemBinding.root)
+
+                itemBinding.root.setOnClickListener {
+                    println("Hello")
+                    val dedicatedViewIntent = Intent(context, DedicatedView::class.java)
+                    dedicatedViewIntent.putExtra(intentPutExtraString, employeeEntity)
+                    startActivity(context, dedicatedViewIntent, null)
                 }
             }
         }
