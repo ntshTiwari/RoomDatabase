@@ -1,5 +1,7 @@
 package com.example.roomdatabase
 
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -13,4 +15,35 @@ data class EmployeeEntity(
     var name: String = "", /// if we don't define a column name then it will be same as the variable name
     @ColumnInfo(name = "email-id") /// now the email field in table will have column name `email-id`
     var email: String = "",
-) : Serializable
+)
+//    : Serializable
+    : Parcelable {
+    //// `Parcelable` is faster than Serializable as this creates less garbage elements
+    constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readString() ?: "", /// if name is null then ""
+//        parcel.readString()!!, /// we can use bang operators as we know this will not be null
+        parcel.readString() ?: "", /// if email is null then ""
+    ) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(id)
+        parcel.writeString(name)
+        parcel.writeString(email)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<EmployeeEntity> {
+        override fun createFromParcel(parcel: Parcel): EmployeeEntity {
+            return EmployeeEntity(parcel)
+        }
+
+        override fun newArray(size: Int): Array<EmployeeEntity?> {
+            return arrayOfNulls(size)
+        }
+    }
+}

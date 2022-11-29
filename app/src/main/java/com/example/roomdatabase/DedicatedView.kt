@@ -10,7 +10,7 @@ class DedicatedView : AppCompatActivity() {
         setContentView(R.layout.activity_dedicated_view)
 
         if(intent.hasExtra(MainActivity.DEDICATED_VIEW)){
-            val employeeEntity: EmployeeEntity  = intent.getSerializableExtra(MainActivity.DEDICATED_VIEW) as EmployeeEntity
+            val employeeEntity: EmployeeEntity  = intent.getParcelableExtra<EmployeeEntity>(MainActivity.DEDICATED_VIEW) as EmployeeEntity
 
             findViewById<TextView>(R.id.textView).text = employeeEntity.id.toString();
         }
